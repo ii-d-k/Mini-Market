@@ -20,6 +20,7 @@ def _ruta_base_datos() -> Path:
     if EN_VERCEL:
         # Se copia la base incluida en el repositorio a /tmp para poder escribir.
         destino = Path("/tmp/minimarket.db")
+        destino.parent.mkdir(parents=True, exist_ok=True)
         if not destino.exists() and DB_LOCAL.exists():
             shutil.copy(DB_LOCAL, destino)
         return destino
