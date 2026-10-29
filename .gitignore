@@ -1,0 +1,27 @@
+# Entorno virtual y caché de Python
+.venv/
+venv/
+__pycache__/
+*.py[cod]
+.pytest_cache/
+
+# Variables de entorno locales
+.env
+
+# Vercel
+.vercel/
+
+# Sistema operativo / editores
+.DS_Store
+Thumbs.db
+desktop.ini
+.vscode/
+.idea/
+
+# Archivos temporales de SQLite
+*.db-journal
+*.db-wal
+*.db-shm
+
+# Entrega comprimida
+*.zip
