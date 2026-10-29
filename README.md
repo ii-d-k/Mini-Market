@@ -2,7 +2,8 @@
 
 Aplicación web para una tienda pequeña donde los clientes consultan productos y realizan pedidos, y el administrador gestiona el catálogo, el inventario, los pedidos y los clientes.
 
-**Demo:** _(pegar aquí el enlace de Vercel)_
+**Aplicación publicada:** <https://minimarket-ebon.vercel.app>
+· **Repositorio:** <https://github.com/ii-d-k/Mini-Market>
 
 ## Descripción
 
@@ -117,13 +118,14 @@ minimarket/
 │   ├── admin.html            # Panel de administración
 │   ├── css/styles.css
 │   ├── js/                   # comun.js, catalogo.js, carrito.js, pedidos.js, admin.js
-│   └── img/productos/        # Imágenes de los productos
+│   └── img/productos/        # Fotos de los productos (JPG)
 ├── database/
 │   ├── minimarket.db         # Base de datos SQLite
 │   ├── schema.sql            # Script de creación de tablas
 │   └── seed.py               # Reinicia la base con datos de ejemplo
 ├── docs/
 │   ├── analisis.md           # Análisis y diseño
+│   ├── creditos_imagenes.md  # Autores y licencias de las fotos
 │   ├── diagrama_er.png       # Diagrama entidad-relación
 │   └── diagrama_er.svg
 ├── tests/test_api.py         # Pruebas de la API
@@ -225,6 +227,10 @@ Errores: `400` regla de negocio (por ejemplo, stock insuficiente), `401` sin ses
 La configuración está en `vercel.json`.
 
 > **Nota sobre SQLite en Vercel:** Vercel no permite escribir archivos de forma permanente. Al arrancar, la app copia `database/minimarket.db` a la carpeta temporal `/tmp` y trabaja sobre esa copia. Todas las operaciones funcionan, pero los cambios pueden volver a los datos de ejemplo cuando Vercel reinicia el servidor (por inactividad o por un nuevo despliegue). Localmente los datos se guardan de forma permanente.
+
+## Créditos de las imágenes
+
+Las fotos de los productos son de [Wikimedia Commons](https://commons.wikimedia.org) y tienen licencias libres (CC0, dominio público, CC BY y CC BY-SA). El autor y la licencia de cada una están en [`docs/creditos_imagenes.md`](docs/creditos_imagenes.md).
 
 ## Autor
 

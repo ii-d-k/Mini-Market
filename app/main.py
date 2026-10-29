@@ -49,6 +49,15 @@ async def manejar_error_validacion(_request: Request, error: RequestValidationEr
     )
 
 
+@app.middleware("http")
+async def revalidar_frontend(request: Request, call_next):
+    """Pide al navegador revisar si hay una versión nueva de HTML, CSS, JS e imágenes."""
+    respuesta = await call_next(request)
+    if not request.url.path.startswith("/api"):
+        respuesta.headers.setdefault("Cache-Control", "no-cache")
+    return respuesta
+
+
 @app.get("/api/salud", tags=["Sistema"], summary="Verificar que la API funciona")
 def salud():
     return {"estado": "ok"}

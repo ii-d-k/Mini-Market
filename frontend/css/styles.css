@@ -96,6 +96,26 @@ main { flex: 1; }
   border-radius: 0 0 28px 28px;
 }
 
+.mosaico {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 12px;
+  max-width: 380px;
+  margin-left: auto;
+  transform: rotate(-3deg);
+}
+
+.mosaico img {
+  width: 100%;
+  aspect-ratio: 4 / 3;
+  object-fit: cover;
+  border-radius: 14px;
+  border: 3px solid rgba(255, 255, 255, 0.9);
+  box-shadow: 0 10px 24px rgba(0, 0, 0, 0.25);
+}
+
+.mosaico img:nth-child(even) { transform: translateY(18px); }
+
 .portada .form-control { border: 0; }
 .portada .input-group-text { border: 0; background: #fff; color: var(--mm-gris); }
 

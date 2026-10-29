@@ -1,12 +1,9 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 400 300" width="400" height="300">
-  <defs>
-    <radialGradient id="g" cx="50%" cy="45%" r="75%">
-      <stop offset="0%" stop-color="#eef2ef"/>
-      <stop offset="100%" stop-color="#cfdcd3"/>
-    </radialGradient>
-  </defs>
-  <rect width="400" height="300" fill="url(#g)"/>
-  <ellipse cx="200" cy="232" rx="78" ry="12" fill="#000" opacity="0.07"/>
-  <text x="200" y="160" font-size="140" text-anchor="middle" dominant-baseline="middle"
-        font-family="'Segoe UI Emoji','Apple Color Emoji','Noto Color Emoji',sans-serif">🛒</text>
+  <rect width="400" height="300" fill="#eef2ef"/>
+  <g transform="translate(150 95)" fill="none" stroke="#a9bcb0" stroke-width="7" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M8 32h84l-9 58a8 8 0 0 1-8 7H25a8 8 0 0 1-8-7z"/>
+    <path d="M30 32l14-24M70 32L56 8"/>
+    <path d="M36 50v28M50 50v28M64 50v28"/>
+  </g>
+  <text x="200" y="232" text-anchor="middle" font-family="Segoe UI, Arial, sans-serif" font-size="18" fill="#8aa193">Sin imagen</text>
 </svg>

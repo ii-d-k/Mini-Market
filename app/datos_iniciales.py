@@ -63,7 +63,7 @@ def cargar_datos_iniciales(db: Session) -> None:
             precio=precio,
             stock=stock,
             stock_minimo=minimo,
-            imagen_url=f"/img/productos/{imagen}.svg",
+            imagen_url=f"/img/productos/{imagen}.jpg",
             categoria=categorias[categoria],
         )
         db.add(producto)
