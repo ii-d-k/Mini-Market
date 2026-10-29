@@ -1,0 +1,310 @@
+<!doctype html>
+<html lang="es">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Administración · MiniMarket</title>
+  <link rel="icon" href="/img/favicon.svg" type="image/svg+xml">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css" rel="stylesheet">
+  <link href="/css/styles.css" rel="stylesheet">
+</head>
+<body>
+  <header id="navbar"></header>
+
+  <main class="container py-4 py-lg-5">
+    <!-- Inicio de sesión -->
+    <section id="vistaLogin" hidden>
+      <div class="tarjeta login-tarjeta mx-auto p-4 p-md-5 mt-lg-4">
+        <div class="text-center mb-4">
+          <span class="marca-logo mb-3" style="width:56px;height:56px;font-size:1.6rem;"><i class="bi bi-shield-lock"></i></span>
+          <h1 class="h4 fw-bold">Panel de administración</h1>
+          <p class="text-secondary mb-0">Ingresa la contraseña para gestionar la tienda.</p>
+        </div>
+        <form id="formLogin">
+          <label for="password" class="form-label">Contraseña</label>
+          <input id="password" name="password" type="password" class="form-control form-control-lg mb-3" required autocomplete="current-password">
+          <button type="submit" class="btn btn-primary btn-lg w-100"><i class="bi bi-box-arrow-in-right me-1"></i>Entrar</button>
+        </form>
+      </div>
+    </section>
+
+    <!-- Panel -->
+    <section id="vistaPanel" hidden>
+      <div class="d-flex flex-wrap justify-content-between align-items-center gap-3 mb-4">
+        <div>
+          <h1 class="h3 fw-bold mb-1">Panel de administración</h1>
+          <p class="text-secondary mb-0">Gestiona productos, inventario, pedidos y clientes.</p>
+        </div>
+        <button id="cerrarSesion" class="btn btn-outline-secondary btn-sm"><i class="bi bi-box-arrow-right me-1"></i>Cerrar sesión</button>
+      </div>
+
+      <ul class="nav nav-pills gap-1 mb-4 flex-nowrap overflow-auto pb-1" role="tablist">
+        <li class="nav-item" role="presentation"><button class="nav-link active" data-bs-toggle="pill" data-bs-target="#tabResumen" data-seccion="resumen" type="button" role="tab"><i class="bi bi-grid me-1"></i>Resumen</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tabProductos" data-seccion="productos" type="button" role="tab"><i class="bi bi-box-seam me-1"></i>Productos e inventario</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tabCategorias" data-seccion="categorias" type="button" role="tab"><i class="bi bi-tags me-1"></i>Categorías</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tabPedidos" data-seccion="pedidos" type="button" role="tab"><i class="bi bi-receipt me-1"></i>Pedidos</button></li>
+        <li class="nav-item" role="presentation"><button class="nav-link" data-bs-toggle="pill" data-bs-target="#tabClientes" data-seccion="clientes" type="button" role="tab"><i class="bi bi-people me-1"></i>Clientes</button></li>
+      </ul>
+
+      <div class="tab-content">
+        <!-- Resumen -->
+        <div class="tab-pane fade show active" id="tabResumen" role="tabpanel">
+          <div id="resumen"></div>
+        </div>
+
+        <!-- Productos -->
+        <div class="tab-pane fade" id="tabProductos" role="tabpanel">
+          <div id="totalesInventario" class="row g-3 mb-3"></div>
+          <div class="tarjeta">
+            <div class="d-flex flex-wrap gap-2 p-3 border-bottom">
+              <input id="filtroProducto" type="search" class="form-control" style="max-width:260px" placeholder="Buscar producto…" aria-label="Buscar producto">
+              <select id="filtroCategoria" class="form-select" style="max-width:220px" aria-label="Filtrar por categoría"></select>
+              <div class="form-check form-switch align-self-center ms-1">
+                <input class="form-check-input" type="checkbox" id="filtroBajoStock">
+                <label class="form-check-label small" for="filtroBajoStock">Solo bajo stock</label>
+              </div>
+              <button class="btn btn-primary ms-auto" data-nuevo="producto"><i class="bi bi-plus-lg me-1"></i>Nuevo producto</button>
+            </div>
+            <div class="table-responsive"><table class="table table-hover tabla-admin">
+              <thead><tr><th></th><th>Producto</th><th>Categoría</th><th class="text-end">Precio</th><th class="text-center">Stock</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
+              <tbody id="tablaProductos"></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- Categorías -->
+        <div class="tab-pane fade" id="tabCategorias" role="tabpanel">
+          <div class="tarjeta">
+            <div class="d-flex p-3 border-bottom">
+              <button class="btn btn-primary ms-auto" data-nuevo="categoria"><i class="bi bi-plus-lg me-1"></i>Nueva categoría</button>
+            </div>
+            <div class="table-responsive"><table class="table table-hover tabla-admin">
+              <thead><tr><th>Nombre</th><th>Descripción</th><th class="text-center">Productos</th><th class="text-end">Acciones</th></tr></thead>
+              <tbody id="tablaCategorias"></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- Pedidos -->
+        <div class="tab-pane fade" id="tabPedidos" role="tabpanel">
+          <div class="tarjeta">
+            <div class="d-flex flex-wrap gap-2 p-3 border-bottom">
+              <select id="filtroEstado" class="form-select" style="max-width:220px" aria-label="Filtrar por estado">
+                <option value="">Todos los estados</option>
+                <option value="pendiente">Pendientes</option>
+                <option value="enviado">Enviados</option>
+                <option value="entregado">Entregados</option>
+                <option value="cancelado">Cancelados</option>
+              </select>
+            </div>
+            <div class="table-responsive"><table class="table table-hover tabla-admin">
+              <thead><tr><th>#</th><th>Fecha</th><th>Cliente</th><th class="text-center">Artículos</th><th class="text-end">Total</th><th>Estado</th><th class="text-end">Acciones</th></tr></thead>
+              <tbody id="tablaPedidos"></tbody>
+            </table></div>
+          </div>
+        </div>
+
+        <!-- Clientes -->
+        <div class="tab-pane fade" id="tabClientes" role="tabpanel">
+          <div class="tarjeta">
+            <div class="d-flex flex-wrap gap-2 p-3 border-bottom">
+              <input id="filtroCliente" type="search" class="form-control" style="max-width:260px" placeholder="Buscar por nombre o email…" aria-label="Buscar cliente">
+              <button class="btn btn-primary ms-auto" data-nuevo="cliente"><i class="bi bi-plus-lg me-1"></i>Nuevo cliente</button>
+            </div>
+            <div class="table-responsive"><table class="table table-hover tabla-admin">
+              <thead><tr><th>Nombre</th><th>Email</th><th>Teléfono</th><th>Dirección</th><th class="text-end">Acciones</th></tr></thead>
+              <tbody id="tablaClientes"></tbody>
+            </table></div>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- Modal: producto -->
+  <div class="modal fade" id="modalProducto" tabindex="-1" aria-labelledby="tituloProducto" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <form class="modal-content" id="formProducto" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="tituloProducto">Producto</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="row g-3">
+            <div class="col-md-8">
+              <div class="mb-3">
+                <label class="form-label" for="pNombre">Nombre</label>
+                <input class="form-control" id="pNombre" name="nombre" required minlength="2" maxlength="120">
+                <div class="invalid-feedback">Mínimo 2 caracteres.</div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="pCategoria">Categoría</label>
+                <select class="form-select" id="pCategoria" name="categoria_id" required></select>
+              </div>
+              <div class="row g-3 mb-3">
+                <div class="col-sm-4">
+                  <label class="form-label" for="pPrecio">Precio (₡)</label>
+                  <input class="form-control" id="pPrecio" name="precio" type="number" min="0" step="0.01" required>
+                  <div class="invalid-feedback">Precio inválido.</div>
+                </div>
+                <div class="col-sm-4">
+                  <label class="form-label" for="pStock">Stock</label>
+                  <input class="form-control" id="pStock" name="stock" type="number" min="0" step="1" required>
+                  <div class="invalid-feedback">Stock inválido.</div>
+                </div>
+                <div class="col-sm-4">
+                  <label class="form-label" for="pMinimo">Stock mínimo</label>
+                  <input class="form-control" id="pMinimo" name="stock_minimo" type="number" min="0" step="1" required>
+                </div>
+              </div>
+              <div class="mb-3">
+                <label class="form-label" for="pDescripcion">Descripción</label>
+                <textarea class="form-control" id="pDescripcion" name="descripcion" rows="2" maxlength="1000"></textarea>
+              </div>
+              <div class="form-check form-switch">
+                <input class="form-check-input" type="checkbox" id="pActivo" name="activo">
+                <label class="form-check-label" for="pActivo">Visible en el catálogo</label>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label" for="pImagen">URL de la imagen</label>
+              <input class="form-control mb-2" id="pImagen" name="imagen_url" maxlength="500" placeholder="https://…">
+              <img id="pVistaPrevia" class="vista-previa" alt="Vista previa">
+              <div class="form-text">Pega el enlace de una imagen. Si queda vacío se usa una imagen genérica.</div>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: ajuste de stock -->
+  <div class="modal fade" id="modalStock" tabindex="-1" aria-labelledby="tituloStock" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formStock">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="tituloStock">Ajustar inventario</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <p class="mb-3"><strong id="stockNombre"></strong><br><span class="text-secondary">Stock actual: <span id="stockActual"></span> unidades</span></p>
+          <div class="btn-group w-100 mb-3" role="group" aria-label="Tipo de movimiento">
+            <input type="radio" class="btn-check" name="tipo" id="tipoEntrada" value="entrada" checked>
+            <label class="btn btn-outline-primary" for="tipoEntrada"><i class="bi bi-box-arrow-in-down me-1"></i>Entrada</label>
+            <input type="radio" class="btn-check" name="tipo" id="tipoSalida" value="salida">
+            <label class="btn btn-outline-primary" for="tipoSalida"><i class="bi bi-box-arrow-up me-1"></i>Salida</label>
+          </div>
+          <label class="form-label" for="stockCantidad">Cantidad</label>
+          <input class="form-control" id="stockCantidad" name="cantidad" type="number" min="1" step="1" value="10" required>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary">Aplicar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: categoría -->
+  <div class="modal fade" id="modalCategoria" tabindex="-1" aria-labelledby="tituloCategoria" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formCategoria" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="tituloCategoria">Categoría</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label" for="cNombre">Nombre</label>
+            <input class="form-control" id="cNombre" name="nombre" required minlength="2" maxlength="80">
+            <div class="invalid-feedback">Mínimo 2 caracteres.</div>
+          </div>
+          <label class="form-label" for="cDescripcion">Descripción</label>
+          <textarea class="form-control" id="cDescripcion" name="descripcion" rows="2" maxlength="500"></textarea>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: cliente -->
+  <div class="modal fade" id="modalCliente" tabindex="-1" aria-labelledby="tituloCliente" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <form class="modal-content" id="formCliente" novalidate>
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="tituloCliente">Cliente</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div class="mb-3">
+            <label class="form-label" for="clNombre">Nombre</label>
+            <input class="form-control" id="clNombre" name="nombre" required minlength="2" maxlength="120">
+            <div class="invalid-feedback">Mínimo 2 caracteres.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="clEmail">Email</label>
+            <input class="form-control" id="clEmail" name="email" type="email" required maxlength="120">
+            <div class="invalid-feedback">Email inválido.</div>
+          </div>
+          <div class="mb-3">
+            <label class="form-label" for="clTelefono">Teléfono</label>
+            <input class="form-control" id="clTelefono" name="telefono" maxlength="30">
+          </div>
+          <label class="form-label" for="clDireccion">Dirección</label>
+          <input class="form-control" id="clDireccion" name="direccion" maxlength="250">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Guardar</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Modal: detalle de pedido -->
+  <div class="modal fade" id="modalPedido" tabindex="-1" aria-labelledby="tituloPedido" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+      <form class="modal-content" id="formPedido">
+        <div class="modal-header">
+          <h2 class="modal-title h5" id="tituloPedido">Pedido</h2>
+          <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Cerrar"></button>
+        </div>
+        <div class="modal-body">
+          <div id="detallePedido"></div>
+          <div class="row g-3 mt-1">
+            <div class="col-md-5">
+              <label class="form-label" for="pedEstado">Estado</label>
+              <select class="form-select" id="pedEstado" name="estado"></select>
+              <div class="form-text">Al cancelar, las unidades regresan al inventario.</div>
+            </div>
+            <div class="col-md-7">
+              <label class="form-label" for="pedNotas">Notas</label>
+              <textarea class="form-control" id="pedNotas" name="notas" rows="2" maxlength="500"></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cerrar</button>
+          <button type="submit" class="btn btn-primary"><i class="bi bi-check-lg me-1"></i>Guardar cambios</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <div id="pie"></div>
+
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+  <script type="module" src="/js/admin.js"></script>
+</body>
+</html>

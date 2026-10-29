@@ -1,10 +1,15 @@
 """Modelos (tablas) de la base de datos."""
-from datetime import datetime
+from datetime import datetime, timezone
 
 from sqlalchemy import Boolean, CheckConstraint, DateTime, Float, ForeignKey, Integer, String, Text
 from sqlalchemy.orm import Mapped, mapped_column, relationship
 
 from .database import Base
+
+
+def ahora_utc() -> datetime:
+    """Fecha y hora actual en UTC (el frontend la muestra en hora local)."""
+    return datetime.now(timezone.utc).replace(tzinfo=None)
 
 
 class Categoria(Base):
@@ -35,7 +40,7 @@ class Producto(Base):
     categoria_id: Mapped[int] = mapped_column(
         ForeignKey("categorias.id", ondelete="RESTRICT"), nullable=False
     )
-    creado_en: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    creado_en: Mapped[datetime] = mapped_column(DateTime, default=ahora_utc)
 
     categoria: Mapped[Categoria] = relationship(back_populates="productos")
 
@@ -48,7 +53,7 @@ class Cliente(Base):
     email: Mapped[str] = mapped_column(String(120), unique=True, nullable=False)
     telefono: Mapped[str | None] = mapped_column(String(30))
     direccion: Mapped[str | None] = mapped_column(String(250))
-    creado_en: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    creado_en: Mapped[datetime] = mapped_column(DateTime, default=ahora_utc)
 
     pedidos: Mapped[list["Pedido"]] = relationship(back_populates="cliente")
 
@@ -66,7 +71,7 @@ class Pedido(Base):
     cliente_id: Mapped[int] = mapped_column(
         ForeignKey("clientes.id", ondelete="RESTRICT"), nullable=False
     )
-    fecha: Mapped[datetime] = mapped_column(DateTime, default=datetime.now)
+    fecha: Mapped[datetime] = mapped_column(DateTime, default=ahora_utc)
     estado: Mapped[str] = mapped_column(String(20), nullable=False, default="pendiente")
     total: Mapped[float] = mapped_column(Float, nullable=False, default=0)
     notas: Mapped[str | None] = mapped_column(Text)
