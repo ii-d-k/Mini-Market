@@ -25,3 +25,6 @@ desktop.ini
 
 # Entrega comprimida
 *.zip
+
+# Configuracion local de Claude
+.claude/
