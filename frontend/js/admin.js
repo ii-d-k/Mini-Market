@@ -134,7 +134,7 @@ async function cargarResumen() {
           <td style="width:64px">${imagen(p.imagen_url, p.nombre)}</td>
           <td><div class="fw-semibold">${esc(p.nombre)}</div><div class="small text-secondary">Mínimo: ${p.stock_minimo}</div></td>
           <td class="text-center"><span class="badge text-bg-${p.stock === 0 ? 'danger' : 'warning'}">${p.stock === 0 ? 'Agotado' : `${p.stock} u.`}</span></td>
-          <td class="text-end"><button class="btn btn-sm btn-outline-primary" data-accion="stock" data-tipo="producto" data-id="${p.id}"><i class="bi bi-plus-lg me-1"></i>Reponer</button></td>
+          <td class="text-end"><button class="btn btn-sm btn-outline-primary text-nowrap" data-accion="stock" data-tipo="producto" data-id="${p.id}"><i class="bi bi-plus-lg me-1"></i>Reponer</button></td>
         </tr>`
         )
         .join('')
